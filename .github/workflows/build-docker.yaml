@@ -1,0 +1,16 @@
+name: Crear y subir imagen Docker
+on: 
+  [workflow_dispatch]
+
+jobs:
+  publish_images: 
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: construir imagen
+        run: docker build -t sllorennte/ejemplo1:latest .
+
+      - name: subir imagen a dockerhub
+        run: docker push sllorennte/ejemplo1:latest

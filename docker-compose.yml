@@ -1,0 +1,47 @@
+version: '3.8'
+
+services:
+  mongodb:
+    container_name: mi-mongodb
+    image: mongo:6.0
+    restart: always
+    ports:
+      - "27017:27017"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: usuario
+      MONGO_INITDB_ROOT_PASSWORD: secret
+      MONGO_INITDB_DATABASE: tienda
+    volumes:
+      - mongodb_data:/data/db
+
+  backend:
+    container_name: mi-backend-express
+    build: .
+    restart: always
+    depends_on:
+      - mongodb
+    environment:
+      DB_HOST: mongodb
+      DB_PORT: 27017
+      DB_USER: usuario
+      DB_PASSWORD: secret
+      DB_NAME: tienda
+    ports:
+      - "3000:3000"
+    volumes:
+      - .:/app
+    command: ["node", "index.js"]
+
+  portainer:
+    container_name: portainer
+    image: portainer/portainer-ce
+    restart: always
+    ports:
+      - "9000:9000"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - portainer_data:/data
+
+volumes:
+  mongodb_data:
+  portainer_data:
