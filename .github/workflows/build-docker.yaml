@@ -9,8 +9,11 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: construir imagen
+      - name: Login en DockerHub
+        run: echo "${{ secrets.DOCKERHUB_TOKEN }}" | docker login -u "${{ secrets.DOCKERHUB_USER }}" --password-stdin
+
+      - name: Construir imagen
         run: docker build -t sllorennte1/ejemplo1:latest .
 
-      - name: subir imagen a dockerhub
+      - name: Subir imagen a DockerHub
         run: docker push sllorennte1/ejemplo1:latest
