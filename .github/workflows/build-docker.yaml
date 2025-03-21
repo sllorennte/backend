@@ -10,7 +10,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: construir imagen
-        run: docker build -t sllorennte/ejemplo1:latest .
+        run: docker build -t sllorennte/ejemplo1:latest
 
       - name: subir imagen a dockerhub
         run: docker push sllorennte/ejemplo1:latest
